@@ -2,6 +2,8 @@ const discordjs = require('discord.js');
 const client = new discordjs.Client();
 const chrono = require('chrono-node');
 const sqlite3 = require('sqlite3');
+const eliza = new (require('elizanode'))();
+const bot = require('./src/bot');
 
 require('dotenv').load();
 const TOKEN = process.env.DISCORD_TOKEN;
@@ -17,6 +19,13 @@ db.run(`CREATE TABLE IF NOT EXISTS reminders (
   reminded INTEGER DEFAULT 0
 )`);
 
+const {isReminder, storeReminder, handleDm} = bot(
+  client,
+  db,
+  chrono,
+  eliza
+);
+
 /**
  * @param {discordjs.Message} msg
  */
@@ -24,34 +33,13 @@ function handleMessage(msg) {
   if (msg.author.bot) {
     return;
   }
-  const content = msg.content;
-  if (content.indexOf(client.user.toString()) === -1) {
-    return;
+  if (isReminder(msg, client)) {
+    storeReminder(msg, db, chrono);
   }
 
-  /** @type {Date} */
-  const reminderDate = chrono.parseDate(
-    content,
-    msg.createdAt,
-    {futureDate: true}
-  );
-
-  if (!reminderDate) {
-    msg.react('👎');
-    return;
+  if (msg.channel.type === 'dm') {
+    handleDm(msg);
   }
-
-  const channelId = msg.channel.id;
-  const reminder = `${msg.author}, "${content}"`;
-
-  db.run(
-    'INSERT INTO reminders (channelId, text, datetime) VALUES (?, ?, ?)',
-    channelId,
-    reminder,
-    reminderDate.getTime()
-  );
-
-  msg.react('👍');
 }
 
 /**
