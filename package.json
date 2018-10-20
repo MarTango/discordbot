@@ -1,0 +1,17 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@types/node": "^10.12.0",
+    "chrono-node": "^1.3.5",
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.1.0",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "martin.tang365@gmail.com",
+  "license": "ISC"
+}
