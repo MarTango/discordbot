@@ -10,7 +10,10 @@
     "dotenv": "^6.1.0",
     "sqlite3": "^4.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^5.7.0",
+    "eslint-config-google": "^0.11.0"
+  },
   "scripts": {},
   "author": "martin.tang365@gmail.com",
   "license": "ISC"
