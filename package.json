@@ -15,7 +15,7 @@
     "eslint": "^5.7.0",
     "eslint-config-google": "^0.11.0"
   },
-  "scripts": {},
+  "scripts": {"start": "node index.js"},
   "author": "martin.tang365@gmail.com",
   "license": "ISC"
 }
