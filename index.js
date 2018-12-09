@@ -52,6 +52,7 @@ WHERE datetime < ${(new Date()).getTime()} AND reminded = 0
 `;
   db.all(query, (err, reminders) => {
     reminders.forEach(function(reminder) {
+      console.log(reminder);
       client.channels.get(reminder.channelId).send(reminder.text);
       db.run('UPDATE reminders SET reminded = 1 WHERE id = ?', reminder.id);
     });
